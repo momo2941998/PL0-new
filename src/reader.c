@@ -3,7 +3,7 @@
 
 FILE *inputStream;
 int lineNo, colNo;
-int currentChar;
+int currentChar =' ';
 
 int readChar(void) {
   // if(currentChar!= EOF) printf("%c",currentChar);

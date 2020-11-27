@@ -6,9 +6,9 @@ Procedure gcd(a; b; var d);
      if a <b then a:= a -b 
      else b :=b -a;
      d:=b;
-	End; :=
+	End; := 00007
 Begin  
    Call Readln(a);	Call Readln(b);
 	Call gcd(a,b,c);
-	Call Writeln(c); *)
+	Call Writeln(c); 
 End. 

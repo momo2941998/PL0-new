@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "reader.h"
+#include "scanner.h"
 /* 
  * Example readFile
  * 
-*/
+
 int compile(char *fileName) {
   if (openInputStream(fileName) == IO_ERROR)
     return IO_ERROR;
@@ -14,7 +15,19 @@ int compile(char *fileName) {
   }
   closeInputStream();
   return IO_SUCCESS;
+}
+*/
 
+int compile(char *fileName) {
+  if (openInputStream(fileName) == IO_ERROR)
+    return IO_ERROR;
+  Token *token;
+  do {
+    token = getToken();
+    assert(""); printToken(token);
+  } while (token->tokenType != NONE);
+  closeInputStream();
+  return IO_SUCCESS;
 }
 
 int main(int argc, char *argv[])
