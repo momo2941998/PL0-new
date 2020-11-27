@@ -210,6 +210,15 @@ Token* getToken(void){
   return makeToken(NONE, lineNo, colNo);
 }
 
+Token* getValidToken(void) {
+  Token* token = getToken();
+  // if (token->tokenType == NONE && currentChar == EOF){
+    
+  // } 
+  return token;
+}
+
+
 void printToken(Token *token) {
 
   printf("line: %-3d, column: %-3d: ", token->lineNo, token->colNo);
@@ -254,7 +263,7 @@ void printToken(Token *token) {
   case SEMICOLON:
   case ASSIGN:
   case NONE:
-    printf("%s", tokenToString(token->tokenType));break;
+    printf("%s \n", tokenToString(token->tokenType));break;
   default:
     printf("không có token type phù hợp");
     break;

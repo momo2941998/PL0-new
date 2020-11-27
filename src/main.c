@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "reader.h"
-#include "scanner.h"
+//#include "scanner.h"
+#include "parser.h"
 /* 
  * Example readFile
  * 
@@ -18,6 +19,9 @@ int compile(char *fileName) {
 }
 */
 
+/* 
+ * Example lexical analysis
+ * 
 int compile(char *fileName) {
   if (openInputStream(fileName) == IO_ERROR)
     return IO_ERROR;
@@ -29,6 +33,8 @@ int compile(char *fileName) {
   closeInputStream();
   return IO_SUCCESS;
 }
+*/
+extern int compile(char *fileName);
 
 int main(int argc, char *argv[])
 {

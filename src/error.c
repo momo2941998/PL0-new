@@ -7,13 +7,16 @@ void error(ErrorCode err, int lineNo, int colNo) {
   case ERR_NUMBER_TOO_LONG:
     printf("\nline: %-3d, column: %-3d: %s\n", lineNo, colNo, ERM_NUMBER_TOO_LONG);
     break;
+  case ERR_NO_TOKEN: 
+    printf("\nline: %-3d, column: %-3d: %s\n", lineNo, colNo, ERM_NO_TOKEN);
+    break;
   
   }
   exit(0);
 }
 
 void missingToken(TokenType tokenType, int lineNo, int colNo) {
-  printf("\n%d-%d:Missing %s\n", lineNo, colNo, tokenToString(tokenType));
+  printf("\nline: %-3d, column: %-3d: Missing %s\n", lineNo, colNo, tokenToString(tokenType));
   exit(0);
 }
 

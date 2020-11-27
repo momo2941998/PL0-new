@@ -5,6 +5,10 @@ PL0-new
 ```sh
 $ make
 ```
+### Clean built file
+```sh
+$ make clean
+```
 
 ### Test
 
