@@ -10,7 +10,12 @@ void error(ErrorCode err, int lineNo, int colNo) {
   case ERR_NO_TOKEN: 
     printf("\nline: %-3d, column: %-3d: %s\n", lineNo, colNo, ERM_NO_TOKEN);
     break;
-  
+  case ERR_SYNTAX_ERROR: 
+    printf("\nline: %-3d, column: %-3d: %s\n", lineNo, colNo, ERM_SYNTAX_ERROR);
+    break;
+  case ERR_END_OF_FILE: 
+    printf("\nline: %-3d, column: %-3d: %s\n", lineNo, colNo, ERM_END_OF_FILE);
+    break;
   }
   exit(0);
 }

@@ -212,9 +212,10 @@ Token* getToken(void){
 
 Token* getValidToken(void) {
   Token* token = getToken();
-  // if (token->tokenType == NONE && currentChar == EOF){
-    
-  // } 
+  while (token->tokenType == NONE ){
+    if (currentChar == EOF) error(ERR_END_OF_FILE, lineNo, colNo);
+    else token = getToken();
+  } 
   return token;
 }
 
@@ -225,9 +226,9 @@ void printToken(Token *token) {
 
   switch (token->tokenType) {
   case IDENT: 
-    printf("%s (%s)", tokenToString(token->tokenType), token->string);break;
+    printf("%s (%s)\n", tokenToString(token->tokenType), token->string);break;
   case NUMBER:
-    printf("%s (%s)", tokenToString(token->tokenType), token->string);break;
+    printf("%s (%s)\n", tokenToString(token->tokenType), token->string);break;
   case BEGIN:
   case CALL: 
   case CONST: 

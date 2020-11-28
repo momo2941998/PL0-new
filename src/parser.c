@@ -17,7 +17,7 @@ void scan(void) {
 
 void eat(TokenType tokenType) { //duyet ki hieu ket thuc
   if (lookAhead->tokenType == tokenType) {
-    // printToken(lookAhead);
+    printToken(lookAhead);
     scan();
   } else missingToken(tokenType, lookAhead->lineNo, lookAhead->colNo);
 }
@@ -44,75 +44,83 @@ void compileProgram(){
   eat(IDENT);
   eat(SEMICOLON);
   compileBlock();
-  eat(PERIOD);
+  if (lookAhead->tokenType == PERIOD) {
+    printToken(lookAhead);
+  } else missingToken(PERIOD, lookAhead->lineNo, lookAhead->colNo);
   assert("Program parsed!");
 }
 
 void compileBlock(){
   assert("Parsing a Block ....");
-
-  if (lookAhead->tokenType == CONST) {
-    eat(IDENT);
-    eat(ASSIGN);
-    eat(NUMBER);
-    while (lookAhead->tokenType == COMMA) {
-      eat(COMMA);
+  if (lookAhead->tokenType == CONST || lookAhead->tokenType == VAR || lookAhead->tokenType == PROCEDURE || lookAhead->tokenType == BEGIN) {
+    if (lookAhead->tokenType == CONST) {
+      eat(CONST);
       eat(IDENT);
-      eat(ASSIGN);
+      eat(EQU);
       eat(NUMBER);
-    }
-    eat(SEMICOLON);
-  } 
+      while (lookAhead->tokenType == COMMA) {
+        eat(COMMA);
+        eat(IDENT);
+        eat(EQU);
+        eat(NUMBER);
+      }
+      eat(SEMICOLON);
+    } 
 
-  if (lookAhead->tokenType == VAR) {
-    eat(VAR);
-    eat(IDENT);
-    if (lookAhead->tokenType == LBRACK) {
-      eat(LBRACK);
-      eat(NUMBER);
-      eat(RBRACK);
-    }
-    while (lookAhead->tokenType == COMMA){
-      eat(COMMA);
+    if (lookAhead->tokenType == VAR) {
+      eat(VAR);
       eat(IDENT);
       if (lookAhead->tokenType == LBRACK) {
         eat(LBRACK);
         eat(NUMBER);
         eat(RBRACK);
       }
-    }
-    eat(SEMICOLON);
-  } 
+      while (lookAhead->tokenType == COMMA){
+        eat(COMMA);
+        eat(IDENT);
+        if (lookAhead->tokenType == LBRACK) {
+          eat(LBRACK);
+          eat(NUMBER);
+          eat(RBRACK);
+        }
+      }
+      eat(SEMICOLON);
+    } 
 
-  while (lookAhead->tokenType == PROCEDURE) {
-    eat(PROCEDURE);
-    eat(IDENT);
-    if (lookAhead->tokenType == LPARENT) {
-      eat(LPARENT);
-      if (lookAhead->tokenType == VAR) eat(VAR);
+    while (lookAhead->tokenType == PROCEDURE) {
+      eat(PROCEDURE);
       eat(IDENT);
-      while (lookAhead->tokenType == SEMICOLON){
-        eat(SEMICOLON);
+      if (lookAhead->tokenType == LPARENT) {
+        eat(LPARENT);
         if (lookAhead->tokenType == VAR) eat(VAR);
         eat(IDENT);
+        while (lookAhead->tokenType == SEMICOLON){
+          eat(SEMICOLON);
+          if (lookAhead->tokenType == VAR) eat(VAR);
+          eat(IDENT);
+        }
+        eat(RPARENT);
       }
-      eat(RPARENT);
-    }
-    eat(SEMICOLON);
-    compileBlock();
-    eat(SEMICOLON);
-  }
-
-  if (lookAhead->tokenType == BEGIN) {
-    eat(BEGIN);
-    compileStatement();
-    while (lookAhead->tokenType == SEMICOLON) {
       eat(SEMICOLON);
-      compileStatement();
+      compileBlock();
+      eat(SEMICOLON);
     }
-    eat(END);
+
+    if (lookAhead->tokenType == BEGIN) {
+      eat(BEGIN);
+      compileStatement();
+      while (lookAhead->tokenType == SEMICOLON) {
+        eat(SEMICOLON);
+        compileStatement();
+      }
+      eat(END);
+    }
+    assert("Block parsed");
   }
-  assert("Block parsed");
+  else {
+    error(ERR_SYNTAX_ERROR, lookAhead->lineNo, lookAhead->colNo);
+  }
+  
 }
 
 void compileStatement(){
@@ -243,7 +251,10 @@ void compileFactor(){
 
 void compileCondition(){
   assert("Parsing a Condition ....");
-  if (lookAhead->tokenType == ODD) compileExpression();
+  if (lookAhead->tokenType == ODD) {
+    eat(ODD);
+    compileExpression();
+  }
   else {
     compileExpression();
     switch (lookAhead->tokenType)
